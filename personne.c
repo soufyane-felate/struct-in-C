@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+#define MAX_P 10
 
   struct personne
 {
+    int id;
    char nom[30];
    int age;
    struct Adresse
@@ -24,22 +25,24 @@ void creer(struct personne *p){
       printf("entrer l'age : ");
       scanf("%d",&p->age);
 
-      printf("entrer la ville : ");
-      scanf("%s",p->adresse->ville);
+     printf("entrer la ville : ");
+    scanf("%s", p->adresse[0].ville);
 
-      printf("entrer la rue : ");
-      scanf("%s",p->adresse->rue);
-      
-      printf("entrer le code postal : ");
-      scanf("%s",p->adresse->code_postal);
+    printf("entrer la rue : ");
+    scanf("%s", p->adresse[0].rue);
+
+    printf("entrer le code postal : ");
+    scanf("%s", p->adresse[0].code_postal);
 }
 
-void afficher(struct personne p){
-    printf("le nom : %s\n age : %d \nAdresse :\n rue : %s \n,ville : %s\n ,code postal %s \n ",
-    p.nom,p.age,p.adresse->ville,p.adresse->rue,p.adresse->code_postal
-    );
-
+void afficher(struct personne p)
+{
+    printf("\n-------------------------------------------------------------------------\n");
+    printf("le nom : %s\n age : %d \nAdresse :\n ville : %s\n rue : %s\n code postal %s\n",
+           p.nom, p.age, p.adresse[0].ville, p.adresse[0].rue, p.adresse[0].code_postal);
+    printf("\n-------------------------------------------------------------------------\n");
 }
+
 void delete(){
 
 }
@@ -72,8 +75,8 @@ void mise_a_jour(struct personne *p,int field ,char nv[]){
 
 
 int main(){
-  struct personne p;
-  int choix;
+  struct personne p[MAX_P];
+  int choix , n = 0;
 
   do
   {
@@ -83,11 +86,28 @@ int main(){
     {
     case 0:
     break;
+
     case 1:
-      creer(&p);
+    if (n<MAX_P)
+    {
+            creer(&p[n]);
+            n++;
+
+    }else      printf("Maximum number of persons reached.\n");
+
+    
+
+
       break;
+
+
     case 2:
-      afficher(p);
+    for (int i = 0; i < n; i++)
+    {
+              afficher(p[i]);
+
+    }
+    
       break;
 
       case 3:
@@ -121,5 +141,4 @@ int main(){
   
  
 }
-
 
