@@ -3,52 +3,56 @@
 #include <stdlib.h>
 
 #define MAX_PERSONNES 100
-
+// Create struct Adresse (for address details)
 struct Adresse
 {
-    char ville[20];
-    char rue[20];
-    char code_postal[20];
+    char ville[20];       
+    char rue[20];        
+    char code_postal[20]; 
 };
 
+// Create struct Personne (for person details)
 struct personne
 {
-    int id;
-    char nom[30];
-    int age;
+    int id;              
+    char nom[30];        
+    int age;             
     struct Adresse adresse[3];
 };
 
-void creer(struct personne *p, int id)
+// Function to create and input person information
+void create(struct personne *p, int id)
 {
     p->id = id;
-    printf("entrer le nom : ");
+    printf("Entrer le nom : ");
     scanf("%s", p->nom);
 
-    printf("entrer l'age : ");
+    printf("Entrer l'age : ");
     scanf("%d", &p->age);
 
-    printf("entrer la ville : ");
+    printf("Entrer la ville : ");
     scanf("%s", p->adresse[0].ville);
 
-    printf("entrer la rue : ");
+    printf("Entrer la rue : ");
     scanf("%s", p->adresse[0].rue);
 
-    printf("entrer le code postal : ");
+    printf("Entrer le code postal : ");
     scanf("%s", p->adresse[0].code_postal);
 }
 
-void afficher(struct personne p)
+// Function to display person information
+void show(struct personne p)
 {
     if (p.id != 0)
     {
-      printf("\n___________________________________________________________________________\n");
+        printf("\n___________________________________________________________________________\n");
         printf("ID: %d\nNom: %s\nAge: %d\nAdresse:\n  Ville: %s\n  Rue: %s\n  Code Postal: %s\n",
                p.id, p.nom, p.age, p.adresse[0].ville, p.adresse[0].rue, p.adresse[0].code_postal);
-      printf("\n___________________________________________________________________________\n");
+        printf("\n___________________________________________________________________________\n");
     }
 }
 
+// Function to delete a person (reset all fields)
 void delete_personne(struct personne *p)
 {
     p->id = 0;
@@ -65,34 +69,36 @@ void delete_personne(struct personne *p)
     printf("Personne deleted successfully.\n");
 }
 
-void mise_a_jour(struct personne *p, int field, char nv[])
+// Function to update a person's information
+void update(struct personne *p, int field, char nv[])
 {
     switch (field)
     {
     case 1:
-        strcpy(p->nom, nv);
+        strcpy(p->nom, nv);  
         break;
     case 2:
-        p->age = atoi(nv);
+        p->age = atoi(nv);    
         break;
     case 3:
-        strcpy(p->adresse[0].ville, nv);
+        strcpy(p->adresse[0].ville, nv); 
         break;
     case 4:
-        strcpy(p->adresse[0].rue, nv);
+        strcpy(p->adresse[0].rue, nv);  
         break;
     case 5:
-        strcpy(p->adresse[0].code_postal, nv);
+        strcpy(p->adresse[0].code_postal, nv); 
         break;
     default:
-        printf("Invalid field\n");
+        printf("Invalid field\n"); 
         break;
     }
 }
 
+// Main function to test the above functions
 int main()
 {
-    struct personne personnes[MAX_PERSONNES] = {0};
+    struct personne personnes[MAX_PERSONNES] = {0}; 
     int choix, id = 0;
 
     do
@@ -103,15 +109,16 @@ int main()
         scanf("%d", &choix);
         printf("\n___________________________________________________________________________\n");
 
-
         switch (choix)
         {
         case 0:
+       printf("Program finished.");
             break;
         case 1:
             if (id < MAX_PERSONNES)
             {
-                creer(&personnes[id], id + 1);
+                // Create a new person
+                create(&personnes[id], id + 1); 
                 id++;
             }
             else
@@ -122,7 +129,9 @@ int main()
         case 2:
             for (int i = 0; i < id; i++)
             {
-                afficher(personnes[i]);
+             // Show information of all persons
+
+                show(personnes[i]); 
             }
             break;
         case 3:
@@ -141,7 +150,8 @@ int main()
 
             printf("Entrer la nouvelle valeur : ");
             scanf("%s", nv);
-            mise_a_jour(&personnes[update_id - 1], field, nv);
+            // Update specific field for the person
+            update(&personnes[update_id - 1], field, nv); 
 
             break;
         }
@@ -155,12 +165,14 @@ int main()
                 printf("Invalid ID\n");
                 break;
             }
+             // Delete the person
             delete_personne(&personnes[delete_id - 1]);
 
             break;
         }
         default:
-            printf("Choix invalide\n");
+        // Invalid choice
+            printf("Choix invalide\n"); 
             break;
         }
     } while (choix != 0);
